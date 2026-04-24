@@ -1,0 +1,73 @@
+{
+  "store_name": "우판등심 수원점",
+  "category": "한식 소고기구이",
+  "template": "warm",
+  "total_duration": 15,
+  "ad_copy": {
+    "main_copy": "500시간이 빚어낸 맛",
+    "sub_copy": "무형문화재 45호 불판, 진공저온숙성 한우",
+    "price_badge_main": "한우 생등심\n37,500원",
+    "price_badge_sub": "런치스페셜 24,000원",
+    "review_text": "\"소고기는 우판등심이 최고!\"",
+    "cta_store": "우판등심 수원점",
+    "cta_info": "영통구 권선로908번길 10  |  매일 11:00 - 22:00"
+  },
+  "store_info": {
+    "name": "우판등심 수원점",
+    "address": "경기 수원시 영통구 권선로908번길 10",
+    "hours": "매일 11:00 - 22:00",
+    "phone": "0507-1475-0230",
+    "website": "http://www.woopan.co.kr",
+    "qr_url": "http://www.woopan.co.kr"
+  },
+  "scenes": [
+    {
+      "id": 1,
+      "role": "Hook",
+      "duration": 3,
+      "source_file": "05_start_frames/2.jpg",
+      "copy": "500시간이 빚어낸 맛",
+      "visual_goal": "한우 굽는 클로즈업, 연기 상승, 육즙 강조",
+      "camera_move": "Dolly In (slow)",
+      "text_animation": "spring_bounce",
+      "special_effects": ["vignette", "color_grade_warm"]
+    },
+    {
+      "id": 2,
+      "role": "Value",
+      "duration": 5,
+      "source_file": "05_start_frames/1.jpg",
+      "source_file_2": "05_start_frames/5.jpg",
+      "copy": "한우 생등심\n37,500원",
+      "copy_sub": "런치스페셜 24,000원 (평일 11-15시)",
+      "visual_goal": "생등심 접시 → 볶음밥 슬라이드, 가격 배지 팝업",
+      "camera_move": "Slow Pan Left to Right → Tilt Down",
+      "text_animation": "slide_in_left",
+      "special_effects": ["price_badge_bounce", "white_flash_between", "color_grade_warm"]
+    },
+    {
+      "id": 3,
+      "role": "Mood",
+      "duration": 4,
+      "source_file": "05_start_frames/3.jpg",
+      "copy": "\"소고기는 우판등심이 최고!\"",
+      "copy_badge": "★ 생방송투데이 출연",
+      "visual_goal": "동파이프 특징적인 넓은 홀, 규모감, 신뢰",
+      "camera_move": "Slow Pan Right",
+      "text_animation": "fade_in",
+      "special_effects": ["review_box", "tv_badge", "vignette"]
+    },
+    {
+      "id": 4,
+      "role": "CTA",
+      "duration": 3,
+      "source_file": "05_start_frames/4.jpg",
+      "copy": "우판등심 수원점",
+      "copy_cta": "영통구 권선로908번길 10  |  매일 11:00 - 22:00",
+      "visual_goal": "건물 외관 간판 선명하게 노출",
+      "camera_move": "Dolly Out",
+      "text_animation": "fade_in",
+      "special_effects": ["lower_third", "qr_code", "vignette"]
+    }
+  ]
+}

@@ -14,11 +14,17 @@ wheels/
 # 작업 산출물 — 내용 제외 (폴더 자체는 유지해야 아래 예외가 동작)
 workspace/*
 !workspace/05_start_frames_16x9/
+!workspace/07_clips/
+!workspace/08_output/
+!workspace/03_storyboard.json
 
-# 동영상 / 이미지 파일 (샘플 프레임 폴더는 예외)
-*.mp4
+# 동영상 파일 (샘플 클립은 예외)
 *.mov
 *.avi
+!workspace/07_clips/*.mp4
+!workspace/08_output/final_ad.mp4
+
+# 이미지 파일 (샘플 프레임 폴더는 예외)
 *.png
 *.jpg
 *.jpeg
