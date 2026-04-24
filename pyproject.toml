@@ -1,0 +1,21 @@
+[project]
+name = "video-pipeline"
+version = "0.1.0"
+description = "동네방네 15초 광고 영상 렌더링 파이프라인"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.136.0",
+    "moviepy>=2.2.1",
+    "pillow>=11.3.0",
+    "python-multipart>=0.0.26",
+    "pyyaml>=6.0.3",
+    "qrcode>=8.2",
+    "uvicorn>=0.45.0",
+]
+
+[project.scripts]
+serve = "main:app"
+demo-assets = "create_demo_assets:main"
+
+[tool.uv]

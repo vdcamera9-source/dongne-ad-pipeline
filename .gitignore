@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info/
+.venv/
+
+# 환경변수 / API 키 (절대 커밋 금지)
+.env
+.env.local
+
+# 작업 산출물 (대용량 파일)
+workspace/
+output/
+
+# 동영상 / 이미지 파일
+*.mp4
+*.mov
+*.avi
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# 폰트 압축 파일 및 대용량 폰트 디렉토리
+*.zip
+assets/fonts/Pretendard-1.3.9/
+assets/fonts/Noto_Sans_KR/
+assets/fonts/Noto_Sans_KR.zip
+
+# 자막 파일
+*.vtt
+*.srt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
