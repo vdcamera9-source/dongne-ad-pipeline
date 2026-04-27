@@ -1,5 +1,5 @@
 """
-Skill 02 — 스토리보드 + 클립 플랜 생성
+Skill 02 — 스토리보드 + 클립 플랜 생성 (Ollama)
 입력: analysis dict, store_info dict
 출력: storyboard dict → workspace/03_storyboard.json
 
@@ -13,9 +13,8 @@ Skill 02 — 스토리보드 + 클립 플랜 생성
 from __future__ import annotations
 import json
 from pathlib import Path
-from google.genai import types
-from .client import get_client
-from .models import gemini_flash
+
+from .ollama_client import chat, parse_json
 
 PROMPT = """아래 분석 결과와 가게 정보를 바탕으로 15초 광고 스토리보드를 생성하세요.
 
@@ -40,14 +39,17 @@ render_clips.py가 아래 5개 클립을 순서대로 합성합니다:
 - review_text: Mood 씬 리뷰 (따옴표 포함, 예: "소고기는 우판등심이 최고!")
 - cta_info: CTA 바 하단 텍스트 (주소 | 영업시간 형식)
 
-=== 클립별 source 규칙 ===
-- analysis의 scene_assignment에서 source가 "real_photo"이면 해당 파일 사용
-- source가 "generate"이면 Nano Banana로 이미지 생성 필요
-- clip_02b는 scene_assignment의 Value 이미지가 있으면 다른 사진(Mood나 Hook 재활용), 없으면 generate
+=== 클립별 source 규칙 (중요) ===
+- 사진이 5장 이상이면 모든 씬을 실사진으로 배정하는 것을 최우선으로 한다
+- generate_image: true 는 마지막 수단 — 적합한 실사진이 단 1장도 없을 때만 사용
+- clip_02b (Value_B)는 clip_02a와 다른 실사진을 배정 (같은 씬 재활용 최소화)
+- 음식 사진이 여러 장이면 Hook·Value 씬에 분배하여 모두 실사진 사용
+- "연출", "볶는 장면", "동적인 동작" 사진은 clip_02b보다 clip_01·03에 배정
 
 === 비디오 프롬프트 원칙 ===
 영어로 작성. [피사체 묘사] + [카메라 무브 동사] + [조명/분위기] + [초 단위]
-예: "Sizzling Korean BBQ beef on iron grill, camera slowly pushes in, warm cinematic lighting, 4 seconds"
+(매우 중요) 영상 왜곡이나 불쾌한 모션(예: 볶음밥이 튀는 현상)을 막기 위해 무조건 "static camera" 또는 아주 미세한 "slow zoom in" 만을 사용해야 함. Pan, Tilt 등 허용 안 함.
+예: "Sizzling Korean BBQ beef on iron grill, static camera, cinematic lighting, 4 seconds"
 
 반드시 아래 JSON 형식만 반환 (마크다운 코드블록 없이 순수 JSON):
 {{
@@ -127,24 +129,20 @@ def build_storyboard(
     analysis: dict,
     store_info: dict,
     workspace: Path,
+    backend: str = "local",
 ) -> dict:
-    client = get_client()
-
-    response = client.models.generate_content(
-        model=gemini_flash(),
-        contents=[types.Content(role="user", parts=[
-            types.Part.from_text(text=PROMPT.format(
-                store_info_json=json.dumps(store_info, ensure_ascii=False, indent=2),
-                analysis_json=json.dumps(analysis, ensure_ascii=False, indent=2),
-            ))
-        ])],
+    prompt = PROMPT.format(
+        store_info_json=json.dumps(store_info, ensure_ascii=False, indent=2),
+        analysis_json=json.dumps(analysis, ensure_ascii=False, indent=2),
     )
+    
+    if backend == "api":
+        from .google_client import chat as g_chat
+        raw = g_chat(prompt)
+    else:
+        raw = chat(prompt)
 
-    raw = response.text.strip()
-    if raw.startswith("```"):
-        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
-
-    storyboard = json.loads(raw)
+    storyboard = parse_json(raw)
 
     out = workspace / "03_storyboard.json"
     out.write_text(json.dumps(storyboard, ensure_ascii=False, indent=2), encoding="utf-8")

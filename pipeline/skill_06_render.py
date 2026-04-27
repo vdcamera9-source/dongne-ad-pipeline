@@ -63,7 +63,7 @@ def render_final(
         codec="libx264",
         audio_codec="aac",
         fps=FPS,
-        logger=None,
+        logger="bar",
     )
 
     return out
